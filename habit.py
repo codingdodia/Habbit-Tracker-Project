@@ -27,17 +27,21 @@ class Habit:
         print("Your habit is: ", self.get_habit_name())
     
     def set_date(self) -> bool:
+
         print("What date should this habit end? If none, type 'none'")
         print("Enter the date in the format: yyyy-mm-dd")
         pattern = re.compile(r'\d{4}-\d{2}-\d{2}')
         input_date = input()
+
         if(input_date == "none"):
             print("No date selected")
             return False
+        
         while(pattern.match(input_date) == None):
             print("Invalid date format")
             print("Enter the date in the format: yyyy-mm-dd")
             input_date = input()
+            
         try:
             self.habit["date"] = date.fromisoformat(input_date)
             print(f'Date set: {self.get_date()}')
@@ -73,7 +77,6 @@ class Habit:
                 return False
             
         days_count = int(days_count)
-
 
         for i in range(days_count):
             print("Enter the day: ")
