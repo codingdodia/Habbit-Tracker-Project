@@ -144,18 +144,17 @@ class Habit:
                     print("Invalid Input, TRY AGAIN!")
     
     def json_dump(self):
-        random_id = random.randint(0, sys.maxsize)
 
         with open('habit.json', 'r+') as f:
 
             content = f.read()
             name = self.get_habit_name()
 
-            if re.search(r'^\s*$', content):
+            if re.search(r'^\s*$', content): # Checks to see if the file is empty if so, write the first line
                 f.write("{\n")
                 f.write("\t\"" + name + "\"" + ' :')
                 f.write(json.dumps(self.habit))
-            else:
+            else: # If the file is not empty, write the habit object to the file with the correct syntax
                 f.seek(0,2)
                 f.seek(f.tell() - 1, os.SEEK_SET)
                 f.write(", \n")
@@ -166,4 +165,29 @@ class Habit:
             
             if(last_line != "}"):
                 f.writelines("\n}")
-            
+    
+    def del_habit(self):
+
+        with open('habit.json', 'r+') as f:
+
+            data = json.load(f)
+            print("Enter the habit you want to delete: ")
+            habit_name = input()
+            while(True):
+                if habit_name in data.keys():
+                    print(f"Deleting habit \"{habit_name}\"")
+                    del data[habit_name]
+                    with open('habit.json', 'w') as f:
+                        if(len(data) == 0):
+                            f.write("")
+                        else:
+                            f.write(json.dumps(data, indent=0))
+                        break
+
+                else:
+                    print("Habit not found")
+                    print("Enter the habit you want to delete: ")
+                    habit_name = input()
+
+                    
+        
