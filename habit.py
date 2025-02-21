@@ -5,6 +5,7 @@ import random
 import sys
 import os
 import streamlit as st
+import pandas as pd
 
 class Habit:
     def __init__(self):
@@ -158,14 +159,18 @@ class Habit:
         st.title("Habit Tracker")
         add_button = st.button("Add habit")
         add_success = None
+
+        my_habits_button = st.button("My habits")
+        if my_habits_button:
+            self.__my_habits_display()
         if add_button:
-            add_success = self.add_habit_display()
+            add_success = self.__add_habit_display()
         if(add_success == True):
             st.write("Habit added successfully")
     
     
     @st.dialog("Add habit")
-    def add_habit_display(self) -> bool:
+    def __add_habit_display(self) -> bool:
 
         with st.form("Add habit", border = False):
             name = st.text_input("Enter the start date of your habit")
@@ -190,8 +195,31 @@ class Habit:
             st.rerun()
             return True
         return True
-            
+    @st.dialog("My Habits")
+    def __my_habits_display(self):
+        habitsJSON = pd.read_json('habit.json')
 
+        habits = []
+
+        for keys in habitsJSON.keys():
+            name = keys
+            days = []
+            for key in habitsJSON[keys]['days']:
+                if(habitsJSON[keys]['days'][key] == 1):
+                    print(key)
+                    key = str(key).capitalize()
+
+                    days.append(key)
+            
+            habits.append({"Habit Name:": name, "Days": days})
+            
+            
+        print(f"Habits: {habits}")
+        print("\n")
+        df = pd.DataFrame(habits)
+
+        st.dataframe(df,use_container_width=True)           
+ 
         
 
 
