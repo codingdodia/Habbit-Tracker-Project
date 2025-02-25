@@ -1,3 +1,9 @@
 {
 	"Work Out" :{"habit_name": "Work Out", "date": null, "days": {"mon": 1, "tue": 1, "wed": 1, "thu": 1, "fri": 1, "sat": 0, "sun": 0}}
+, 
+	";lkjaflj" :{"habit_name": ";lkjaflj", "date": null, "days": {"mon": 1, "tue": 1, "wed": 0, "thu": 1, "fri": 0, "sat": 0, "sun": 0}}
+, 
+	"Test" :{"habit_name": "Test", "date": null, "days": {"mon": 1, "tue": 1, "wed": 0, "thu": 0, "fri": 0, "sat": 0, "sun": 0}, "time": null}
+, 
+	"test3" :{"habit_name": "test3", "date": null, "days": {"mon": 1, "tue": 1, "wed": 0, "thu": 0, "fri": 0, "sat": 0, "sun": 0}, "time": "00:30"}
 }

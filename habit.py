@@ -1,6 +1,7 @@
 import re
 import json
 from datetime import date
+from datetime import time as dt_time
 import random
 import sys
 import os
@@ -23,7 +24,8 @@ class Habit:
         self.habit = {
             'habit_name': None,
             'date': None,
-            "days": self.days
+            'days': self.days,
+            'time': None
         }
 
 
@@ -70,14 +72,14 @@ class Habit:
 
 
     
-    def set_date(self, date) -> bool:       
+    def set_time(self, time) -> bool:       
             
-            self.habit["date"] = date.strftime("%Y-%m-%d")
-            print(f'Date set: {self.get_date()}')
+            self.habit['time'] = dt_time.strftime(time, "%H:%M")
+            print(f'Time set: {self.get_time()}')
 
 
-    def get_date(self) -> str:
-        return self.habit.get("date")
+    def get_time(self) -> str:
+        return self.habit.get('time')
     
     def get_habit_name(self) -> str:
         return self.habit.get("habit_name")
@@ -160,6 +162,11 @@ class Habit:
         add_button = st.button("Add habit")
         add_success = None
 
+        agree = st.checkbox("I agree")
+
+        if agree:
+            st.time_input("When would you like to be reminded?")
+
         my_habits_button = st.button("My habits")
         if my_habits_button:
             self.__my_habits_display()
@@ -169,11 +176,22 @@ class Habit:
             st.write("Habit added successfully")
     
     
+    
+    
     @st.dialog("Add habit")
     def __add_habit_display(self) -> bool:
 
+
         with st.form("Add habit", border = False):
             name = st.text_input("Enter the start date of your habit")
+
+            
+
+            time = st.time_input("When would you like to be remided?",value = None)
+            
+            
+
+            
             
             # date = st.date_input("Enter the end date:", format = "YYYY-MM-DD")
             days: list[str] = st.pills("Days", ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], selection_mode = "multi")
@@ -189,6 +207,8 @@ class Habit:
             elif(self.set_habit_days(days) == False):
                 st.error("Must select at least one day")
                 return False
+            
+            self.set_time(time)
                 
             print(days)
             self.json_dump()
