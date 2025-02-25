@@ -25,12 +25,12 @@ class Habit:
             'habit_name': None,
             'date': None,
             'days': self.days,
-            'time': None
+            'time': ''
         }
-
 
         with(open('habit.json', 'a')) as f:
             f.seek(0)
+
 
     def check_if_habit_exists(self, name = None) -> bool:
         
@@ -52,16 +52,12 @@ class Habit:
         return True
     
 
-
-            
-
     def set_habit_name(self,name: str = None) -> bool:
         
         if(name == ""):
             print("Habit name cannot be empty")
             st.error("Habit name cannot be empty")
             return False
-        
 
         elif(not self.check_if_habit_exists(name)):
             print("Habit already exists, please enter a new habit")
@@ -72,7 +68,7 @@ class Habit:
 
 
     
-    def set_time(self, time) -> bool:       
+    def set_time(self, time) -> bool: 
             
             self.habit['time'] = dt_time.strftime(time, "%H:%M")
             print(f'Time set: {self.get_time()}')
@@ -110,8 +106,9 @@ class Habit:
                         self.errors.append(f"Error: ${days_str} is not a valid day")
                         return False
             return True
+        
     
-    def json_dump(self):
+    def json_dump(self) -> None:
 
         with open('habit.json', 'r+') as f:
 
@@ -134,7 +131,8 @@ class Habit:
             if(last_line != "}"):
                 f.writelines("\n}")
     
-    def del_habit(self):
+
+    def del_habit(self) -> None:
 
         with open('habit.json', 'r+') as f:
 
@@ -157,7 +155,7 @@ class Habit:
                     print("Enter the habit you want to delete: ")
                     habit_name = input()
     
-    def display(self):
+    def display(self) -> None:
         st.title("Habit Tracker")
         add_button = st.button("Add habit")
         add_success = None
@@ -172,14 +170,14 @@ class Habit:
             self.__my_habits_display()
         if add_button:
             add_success = self.__add_habit_display()
-        if(add_success == True):
+        if(add_success):
             st.write("Habit added successfully")
     
     
     
     
     @st.dialog("Add habit")
-    def __add_habit_display(self) -> bool:
+    def __add_habit_display(self) -> None:
 
 
         with st.form("Add habit", border = False):
@@ -201,7 +199,6 @@ class Habit:
 
         if submit_button:
             if(self.set_habit_name(name) == False):
-                #st.error("Habit name cannot be empty")
                 return False
             
             elif(self.set_habit_days(days) == False):
